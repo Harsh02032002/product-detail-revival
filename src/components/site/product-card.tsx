@@ -2,16 +2,26 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Heart } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useWishlist } from "@/components/site/wishlist-provider";
 import { formatPrice, type Product } from "@/data/catalogue";
 
 export function ProductCard({ product, list = false }: { product: Product; list?: boolean }) {
   const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+  const { isWishlisted, toggleWishlist } = useWishlist();
+  const wishlisted = isWishlisted(product.slug);
   return (
     <article className={`group overflow-hidden rounded-md border border-border bg-card ${list ? "sm:grid sm:grid-cols-[180px_1fr]" : ""}`}>
       <Link to="/products/$productSlug" params={{ productSlug: product.slug }} className="relative block aspect-[4/5] overflow-hidden bg-image-surface" aria-label={`View ${product.name}`}>
         <img src={product.image} alt={product.name} className="h-full w-full object-contain transition-transform duration-500 motion-safe:group-hover:scale-[1.015]" />
         <span className="absolute left-2 top-2 rounded-sm bg-badge px-2 py-1 text-[9px] font-semibold text-badge-foreground">{product.badge}</span>
-        <Button variant="ghost" size="icon" aria-label={`Add ${product.name} to wishlist`} className="absolute right-1 top-1 text-image-icon hover:bg-image-overlay hover:text-image-icon"><Heart /></Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={`${wishlisted ? "Remove" : "Add"} ${product.name} ${wishlisted ? "from" : "to"} wishlist`}
+          aria-pressed={wishlisted}
+          onClick={(event) => { event.preventDefault(); event.stopPropagation(); toggleWishlist(product.slug); }}
+          className="absolute right-1 top-1 text-image-icon hover:bg-image-overlay hover:text-image-icon"
+        ><Heart fill={wishlisted ? "currentColor" : "none"} /></Button>
       </Link>
       <div className="flex flex-col p-2.5 sm:p-3">
         <p className="text-[9px] font-semibold text-collection-link">AVISHEKK NAIYA</p>

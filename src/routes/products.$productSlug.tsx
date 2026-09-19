@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Heart } from "lucide-react";
 
 import { ProductCard } from "@/components/site/product-card";
 import { SiteHeader } from "@/components/site/site-header";
 import { Button } from "@/components/ui/button";
+import { useWishlist } from "@/components/site/wishlist-provider";
 import { formatPrice, getCategory, getProduct, products } from "@/data/catalogue";
 
 export const Route = createFileRoute("/products/$productSlug")({
@@ -35,6 +37,8 @@ export const Route = createFileRoute("/products/$productSlug")({
 
 function ProductPage() {
   const { product, category } = Route.useLoaderData();
+  const { isWishlisted, toggleWishlist } = useWishlist();
+  const wishlisted = isWishlisted(product.slug);
   const discount = Math.round((1 - product.price / product.originalPrice) * 100);
   const related = products
     .filter((item) => item.category === product.category && item.slug !== product.slug)
@@ -88,6 +92,10 @@ function ProductPage() {
 
             <div className="mt-6 flex flex-wrap gap-2">
               <Button size="lg">Add to Bag</Button>
+              <Button size="lg" variant="outline" onClick={() => toggleWishlist(product.slug)} aria-pressed={wishlisted}>
+                <Heart fill={wishlisted ? "currentColor" : "none"} />
+                {wishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+              </Button>
               <Button asChild size="lg" variant="outline">
                 <Link to="/collections/$category" params={{ category: category.slug }}>
                   Back to {category.plural}

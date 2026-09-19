@@ -3,8 +3,10 @@ import { ChevronDown, Heart, Search, ShoppingBag, UserRound } from "lucide-react
 
 import logoAsset from "@/assets/avishekk-naiya-logo.png";
 import { Button } from "@/components/ui/button";
+import { useWishlist } from "@/components/site/wishlist-provider";
 
 export function SiteHeader() {
+  const { wishlistSlugs } = useWishlist();
   return (
     <header className="bg-header text-header-foreground">
       <div className="border-b border-header-border bg-header-top">
@@ -28,7 +30,9 @@ export function SiteHeader() {
         <div className="flex items-center gap-0.5 sm:gap-1">
           <Button variant="ghost" size="icon" aria-label="Search" className="size-8 text-header-foreground hover:bg-header-hover hover:text-gold sm:size-9"><Search className="size-[18px] sm:size-5" /></Button>
           <Button variant="ghost" size="icon" aria-label="Account" className="hidden size-9 text-header-foreground hover:bg-header-hover hover:text-gold sm:inline-flex"><UserRound /></Button>
-          <Button variant="ghost" size="icon" aria-label="Wishlist, 0 items" className="hidden size-9 text-header-foreground hover:bg-header-hover hover:text-gold sm:inline-flex"><Heart /></Button><span className="hidden text-xs sm:inline">0</span>
+          <Button asChild variant="ghost" size="icon" className="hidden size-9 text-header-foreground hover:bg-header-hover hover:text-gold sm:inline-flex">
+            <Link to="/wishlist" aria-label={`Wishlist, ${wishlistSlugs.length} items`}><Heart fill={wishlistSlugs.length > 0 ? "currentColor" : "none"} /></Link>
+          </Button><span className="hidden text-xs sm:inline">{wishlistSlugs.length}</span>
           <Button variant="ghost" size="icon" aria-label="Shopping bag, 0 items" className="size-8 text-header-foreground hover:bg-header-hover hover:text-gold sm:size-9"><ShoppingBag className="size-[18px] sm:size-5" /></Button><span className="text-xs">0</span>
         </div>
       </div>
