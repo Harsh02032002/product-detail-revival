@@ -30,9 +30,9 @@ export function SiteHeader() {
         <div className="flex items-center gap-0.5 sm:gap-1">
           <Button variant="ghost" size="icon" aria-label="Search" className="size-8 text-header-foreground hover:bg-header-hover hover:text-gold sm:size-9"><Search className="size-[18px] sm:size-5" /></Button>
           <Button variant="ghost" size="icon" aria-label="Account" className="hidden size-9 text-header-foreground hover:bg-header-hover hover:text-gold sm:inline-flex"><UserRound /></Button>
-          <Button asChild variant="ghost" size="icon" className="hidden size-9 text-header-foreground hover:bg-header-hover hover:text-gold sm:inline-flex">
+          <Button asChild variant="ghost" size="icon" className="size-8 text-header-foreground hover:bg-header-hover hover:text-gold sm:size-9">
             <Link to="/wishlist" aria-label={`Wishlist, ${wishlistSlugs.length} items`}><Heart fill={wishlistSlugs.length > 0 ? "currentColor" : "none"} /></Link>
-          </Button><span className="hidden text-xs sm:inline">{wishlistSlugs.length}</span>
+          </Button><span className="text-xs">{wishlistSlugs.length}</span>
           <Button variant="ghost" size="icon" aria-label="Shopping bag, 0 items" className="size-8 text-header-foreground hover:bg-header-hover hover:text-gold sm:size-9"><ShoppingBag className="size-[18px] sm:size-5" /></Button><span className="text-xs">0</span>
         </div>
       </div>
